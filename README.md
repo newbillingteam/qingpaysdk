@@ -25,18 +25,20 @@ secret_access_key: 'SECRET_ACCESS_KEY_EXAMPLE'
 ### Usage
 
 Now you are ready to code. You can read the test method in the code to have a clear understanding.
-```
+```go
 package main
 
-import "github.com/newbillingteam/qingpaysdk"
+import (
+	"fmt"
+	"github.com/newbillingteam/qingpaysdk"
+)
 
 func main()  {
-    c, err := NewClient("access_key", "secret_access_key", "name", false, nil)
-    if err != nil {
-		t.Errorf("err should be nil, but %s", err)
+	c, err := qingpaysdk.NewClient("access_key", "secret_access_key", "name", false, nil)
+	if err != nil {
+		fmt.Printf("%v", err)
 	}
-
-	requestData := TradePayRequest{
+	requestData := qingpaysdk.TradePayRequest{
 		Username:    "NAME",
 		OutTradeNo:  "123456789",
 		PayChannel:  "ALIPAY",
@@ -46,10 +48,9 @@ func main()  {
 		NotifyUrl:   "http://www.xxxx.com/callback",
 	}
 	trade, err := c.TradePay(requestData)
-    if err != nil {
-		t.Errorf("err should be nil, but %v", err)
-	} 
-    ......
+	if err == nil && trade.ReturnCode == "SUCCESS"{
+		fmt.Printf("%v", trade.Content.PayUrl)
+	}
 
 }
 
