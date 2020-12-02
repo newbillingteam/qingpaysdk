@@ -1,4 +1,4 @@
-module qingpaysdk
+module github.com/newbillingteam/qingpaysdk
 
 go 1.15
 
