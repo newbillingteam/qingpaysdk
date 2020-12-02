@@ -1,4 +1,4 @@
-package qingpay
+package qingpaysdk
 
 import "testing"
 
@@ -21,7 +21,7 @@ var TradePagePayJSON = []byte(`
 
 func TestTradePay(t *testing.T) {
 	//mock, transport := NewMockClient(200, TradePagePayJSON)
-	c, err := NewClient("1111", "3333", "ks", false, nil)
+	c, err := NewClient("1111", "3333", "ks", true, nil)
 	if err != nil {
 		t.Errorf("err should be nil, but %s", err)
 	}

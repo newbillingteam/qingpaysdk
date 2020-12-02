@@ -1,4 +1,4 @@
-package qingpay
+package qingpaysdk
 
 import (
 	"bytes"
