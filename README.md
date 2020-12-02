@@ -43,13 +43,14 @@ func main()  {
 		PayAmount:   1,
 		ProductName: "apple",
 		Method:      "WEB",
+		NotifyUrl:   "http://www.xxxx.com/callback",
 	}
 	trade, err := c.TradePay(requestData)
     if err != nil {
 		t.Errorf("err should be nil, but %v", err)
 	} 
     ......
-    
+
 }
 
 ```
