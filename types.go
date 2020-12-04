@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	SandBoxBaseURL    = "http://127.0.0.1:9400"
+	SandBoxBaseURL    = "http://139.198.121.68:19400"
 	ProductionBaseURL = "http://139.198.121.68:19400"
 )
 
