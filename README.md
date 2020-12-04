@@ -25,6 +25,7 @@ secret_access_key: 'SECRET_ACCESS_KEY_EXAMPLE'
 ### Usage
 
 Now you are ready to code. You can read the test method in the code to have a clear understanding.
+
 ```go
 package main
 
@@ -34,6 +35,10 @@ import (
 )
 
 func main()  {
+	// 第一个参数表示 加密key
+	// 第二个参数表示 加密私钥
+	// 第三个参数表示 接入方 名称
+	// 第四个参数表示 接口环境 true表生产环境 false 表沙箱环境
 	c, err := qingpaysdk.NewClient("access_key", "secret_access_key", "name", false, nil)
 	if err != nil {
 		fmt.Printf("%v", err)
@@ -55,6 +60,8 @@ func main()  {
 }
 
 ```
+
+
 
 ## LICENSE
 

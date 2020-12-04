@@ -19,7 +19,7 @@ import (
 type Client struct {
 	signer   request.Signer
 	apiBase  string
-	openName string
+	userName string
 	Client   *http.Client
 }
 
@@ -37,7 +37,7 @@ func NewClient(key, secret, name string, isProduction bool, client *http.Client)
 
 	c := &Client{
 		signer:   signer,
-		openName: name,
+		userName: name,
 		Client:   client,
 	}
 	if isProduction {
@@ -59,7 +59,7 @@ func (c *Client) header(isJson bool) map[string]string {
 	}
 	return map[string]string{
 		"Content-Type": contentType,
-		"open-name":    c.openName,
+		"username":    c.userName,
 		"expires":      time.Now().In(time.UTC).Format("2006-01-02T15:04:05Z"),
 		"Date":         utils.TimeToString(time.Now(), "RFC 822"),
 	}

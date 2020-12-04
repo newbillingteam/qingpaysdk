@@ -1,9 +1,10 @@
 package qingpaysdk
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
+
+	"encoding/json"
 )
 
 type (
@@ -42,8 +43,7 @@ type (
 )
 
 func (c *Client) TradePay(pagePayRequest TradePayRequest) (*TradePayResponse, error) {
-
-	resp, err := c.doRequest("POST", "/v1/trade/pay", nil, pagePayRequest)
+	resp, err := c.doFormRequest("POST", "/v1/trade/pay", nil, pagePayRequest)
 	if err != nil {
 		log.Printf("ERROR: %v", err)
 		return nil, err
@@ -95,8 +95,7 @@ type (
 )
 
 func (c *Client) TradeQuery(queryRequest TradeQueryRequest) (*TradeQueryResponse, error) {
-
-	resp, err := c.doRequest("POST", "/v1/trade/query", nil, queryRequest)
+	resp, err := c.doFormRequest("POST", "/v1/trade/query", nil, queryRequest)
 	if err != nil {
 		log.Printf("ERROR: %v", err)
 		return nil, err
@@ -140,8 +139,7 @@ type (
 )
 
 func (c *Client) TradeRefund(refundRequest TradeRefundRequest) (*TradeRefundResponse, error) {
-
-	resp, err := c.doRequest("POST", "/v1/trade/refund", nil, refundRequest)
+	resp, err := c.doFormRequest("POST", "/v1/trade/refund", nil, refundRequest)
 	if err != nil {
 		log.Printf("ERROR: %v", err)
 		return nil, err

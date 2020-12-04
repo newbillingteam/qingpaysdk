@@ -36,3 +36,12 @@ func (c *Client) GetTradeNotification(req *http.Request) (noti *TradeNotificatio
 
 	return noti, nil
 }
+
+func ( *Client) AckNotification(w http.ResponseWriter) {
+	AckNotification(w)
+}
+
+func AckNotification(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("success"))
+}

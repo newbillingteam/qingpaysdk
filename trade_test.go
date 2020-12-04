@@ -2,7 +2,13 @@ package qingpaysdk
 
 import "testing"
 
-var orderNo = "a123345422354312332196"
+
+var (
+	testUserName =  "ks"
+	testAccessKey = "SEUODHHPDBGOYDMRG"
+	testAccessSecret = "MyHPwVxbCIRXEOJ8K2dHkJZjjbsFHqRMH"
+	orderNo = "b1233454233219"
+)
 
 var TradePagePayJSON = []byte(`
 {
@@ -21,7 +27,7 @@ var TradePagePayJSON = []byte(`
 
 func TestTradePay(t *testing.T) {
 	//mock, transport := NewMockClient(200, TradePagePayJSON)
-	c, err := NewClient("1111", "3333", "ks", true, nil)
+	c, err := NewClient(testAccessKey, testAccessSecret, testUserName, false, nil)
 	if err != nil {
 		t.Errorf("err should be nil, but %s", err)
 	}
@@ -31,8 +37,9 @@ func TestTradePay(t *testing.T) {
 		OutTradeNo:  orderNo,
 		PayChannel:  "ALIPAY",
 		PayAmount:   1,
-		ProductName: "云服务器",
+		ProductName: "apples",
 		Method:      PayMethodWeb,
+		NotifyUrl:   "http://huidiao.com/callback",
 	}
 	trade, err := c.TradePay(requestData)
 	//if transport.URL != "http://127.0.0.1:9400/v1/trade/pay" {
@@ -53,16 +60,17 @@ func TestTradePay(t *testing.T) {
 }
 
 func TestTradeQuery(t *testing.T) {
-	c, err := NewClient("SEUODHHPDBGOYDMRG", "MyHPwVxbCIRXEOJ8K2dHkJZjjbsFHqRMH", "ks", false, nil)
+	c, err := NewClient(testAccessKey, testAccessSecret, testUserName, false, nil)
 	if err != nil {
 		t.Errorf("err should be nil, but %s", err)
 	}
 
 	requestData := TradeQueryRequest{
 		Username:   "ks",
-		OutTradeNo: "123345435435431232135",
+		OutTradeNo: "a123345423325196",
 		TradeNo:    "",
 	}
+
 	order, err := c.TradeQuery(requestData)
 	if err != nil {
 		t.Errorf("err should be nil, but %v", err)
@@ -76,7 +84,7 @@ func TestTradeQuery(t *testing.T) {
 }
 
 func TestTradeRefund(t *testing.T) {
-	c, err := NewClient("1111", "3333", "ks", false, nil)
+	c, err := NewClient(testAccessKey, testAccessSecret, testUserName, false, nil)
 	if err != nil {
 		t.Errorf("err should be nil, but %s", err)
 	}
@@ -87,6 +95,7 @@ func TestTradeRefund(t *testing.T) {
 		TradeNo:      "",
 		RefundAmount: 1,
 	}
+
 	order, err := c.TradeRefund(requestData)
 	if err != nil {
 		t.Errorf("err should be nil, but %v", err)
