@@ -2,12 +2,11 @@ package qingpaysdk
 
 import "testing"
 
-
 var (
 	testUserName =  "ks"
 	testAccessKey = "SEUODHHPDBGOYDMRG"
 	testAccessSecret = "MyHPwVxbCIRXEOJ8K2dHkJZjjbsFHqRMH"
-	orderNo = "b1233454233219"
+	orderNo = "b12334542335929"
 )
 
 var TradePagePayJSON = []byte(`
@@ -39,7 +38,7 @@ func TestTradePay(t *testing.T) {
 		PayAmount:   1,
 		ProductName: "apples",
 		Method:      PayMethodWeb,
-		NotifyUrl:   "http://huidiao.com/callback",
+		NotifyUrl:   "http://129.211.58.64:8010/callback/alipay",
 	}
 	trade, err := c.TradePay(requestData)
 	//if transport.URL != "http://127.0.0.1:9400/v1/trade/pay" {

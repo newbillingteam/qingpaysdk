@@ -17,6 +17,10 @@ type TradeNotification struct {
 }
 
 func (c *Client) GetTradeNotification(req *http.Request) (noti *TradeNotification, err error) {
+	return GetTradeNotification(req)
+}
+
+func GetTradeNotification(req *http.Request) (noti *TradeNotification, err error) {
 	if req == nil {
 		return nil, errors.New("request 参数不能为空")
 	}
