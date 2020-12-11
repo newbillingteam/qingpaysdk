@@ -11,6 +11,11 @@ const (
 )
 
 const (
+	PayChannelAlipay = "ALIPAY"
+	PayChannelStripe = "STRIPE"
+)
+
+const (
 	PayMethodWeb     = "WEB"
 	PayMethodWap     = "WAP"
 	PayMethodCashier = "CASHIER"

@@ -3,10 +3,10 @@ package qingpaysdk
 import "testing"
 
 var (
-	testUserName =  "ks"
-	testAccessKey = "SEUODHHPDBGOYDMRG"
+	testUserName     = "ks"
+	testAccessKey    = "SEUODHHPDBGOYDMRG"
 	testAccessSecret = "MyHPwVxbCIRXEOJ8K2dHkJZjjbsFHqRMH"
-	orderNo = "b12334542335929"
+	orderNo          = "b123345423359298"
 )
 
 var TradePagePayJSON = []byte(`
@@ -32,13 +32,15 @@ func TestTradePay(t *testing.T) {
 	}
 
 	requestData := TradePayRequest{
-		Username:    "ks",
-		OutTradeNo:  orderNo,
-		PayChannel:  "ALIPAY",
-		PayAmount:   1,
-		ProductName: "apples",
-		Method:      PayMethodWeb,
-		NotifyUrl:   "http://129.211.58.64:8010/callback/alipay",
+		Username:        "ks",
+		OutTradeNo:      orderNo,
+		PayChannel:      PayChannelStripe,
+		Currency:        "usd",
+		PayAmount:       100,
+		ProductName:     "apples",
+		Method:          PayMethodWeb,
+		PaymentMethodId: "pm_1HwM6pGjtN5fswegv6Ixyxhy",
+		NotifyUrl:       "http://127.0.0.1:8080/callback/alipay",
 	}
 	trade, err := c.TradePay(requestData)
 	//if transport.URL != "http://127.0.0.1:9400/v1/trade/pay" {
@@ -96,6 +98,31 @@ func TestTradeRefund(t *testing.T) {
 	}
 
 	order, err := c.TradeRefund(requestData)
+	if err != nil {
+		t.Errorf("err should be nil, but %v", err)
+	} else if order == nil {
+		t.Error("trade should not be nil")
+	} else if order.ReturnCode != "SUCCESS" {
+		t.Errorf("ResultInfo Code should be SUCCESS, but %s", order.ReturnCode)
+	} else if order.Content.OutTradeNo != orderNo {
+		t.Errorf("OutTradeNo should be %s, but %s", orderNo, order.Content.OutTradeNo)
+	}
+}
+
+func TestTradeConfirm(t *testing.T) {
+	c, err := NewClient(testAccessKey, testAccessSecret, testUserName, false, nil)
+	if err != nil {
+		t.Errorf("err should be nil, but %s", err)
+	}
+
+	requestData := TradeConfirmRequest{
+		Username:        "ks",
+		OutTradeNo:      orderNo,
+		PaymentIntentId: "pi_1HwMAkGjtN5fswegnQ62iFd1",
+		PayChannel:      PayChannelStripe,
+	}
+
+	order, err := c.TradeConfirm(requestData)
 	if err != nil {
 		t.Errorf("err should be nil, but %v", err)
 	} else if order == nil {

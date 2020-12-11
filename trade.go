@@ -9,20 +9,21 @@ import (
 
 type (
 	TradePayRequest struct {
-		Username    string `json:"username,omitempty"`
-		OutTradeNo  string `json:"out_trade_no,omitempty"`
-		PayChannel  string `json:"pay_channel,omitempty"`
-		PayAmount   uint64 `json:"pay_amount,omitempty"`
-		Currency    string `json:"currency,omitempty"`
-		ReturnUrl   string `json:"return_url,omitempty"`
-		NotifyUrl   string `json:"notify_url,omitempty"`
-		OrderTime   string `json:"order_time,omitempty"`
-		ProductName string `json:"product_name,omitempty"`
-		Passback    string `json:"passback,omitempty"`
-		Method      string `json:"method,omitempty"` //WEB WAP CASHIER
-		Remark      string `json:"remark,omitempty"`
-		SignType    string `json:"sign_type,omitempty"`
-		Sign        string `json:"sign,omitempty"`
+		Username        string `json:"username,omitempty"`
+		OutTradeNo      string `json:"out_trade_no,omitempty"`
+		PayChannel      string `json:"pay_channel,omitempty"`
+		PayAmount       uint64 `json:"pay_amount,omitempty"`
+		Currency        string `json:"currency,omitempty"`
+		PaymentMethodId string `json:"payment_method_id,omitempty"`
+		ReturnUrl       string `json:"return_url,omitempty"`
+		NotifyUrl       string `json:"notify_url,omitempty"`
+		OrderTime       string `json:"order_time,omitempty"`
+		ProductName     string `json:"product_name,omitempty"`
+		Passback        string `json:"passback,omitempty"`
+		Method          string `json:"method,omitempty"` //WEB WAP CASHIER
+		Remark          string `json:"remark,omitempty"`
+		SignType        string `json:"sign_type,omitempty"`
+		Sign            string `json:"sign,omitempty"`
 	}
 
 	TradePayResponse struct {
@@ -36,6 +37,7 @@ type (
 			CashierUrl string `json:"cashier_url,omitempty"`
 			PayQrcode  string `json:"pay_qrcode,omitempty"`
 			ExpireTime string `json:"expire_time,omitempty"`
+			SessionId  string `json:"session_id,omitempty"`
 		} `json:"content"`
 		Error ErrorData `json:"error,omitempty"`
 		Sign  string    `json:"sign,omitempty"`
@@ -63,6 +65,7 @@ type (
 		TradeNo    string `json:"trade_no,omitempty"`
 		OutTradeNo string `json:"out_trade_no,omitempty"`
 		Username   string `json:"username,omitempty"`
+		PayChannel string `json:"pay_channel,omitempty"`
 		SignType   string `json:"sign_type,omitempty"`
 		Sign       string `json:"sign,omitempty"`
 	}
@@ -114,6 +117,7 @@ type (
 	TradeRefundRequest struct {
 		TradeNo        string `json:"trade_no,omitempty"`
 		OutTradeNo     string `json:"out_trade_no,omitempty"`
+		PayChannel     string `json:"pay_channel,omitempty"`
 		RefundAmount   uint64 `json:"refund_amount,omitempty"`
 		RefundCurrency string `json:"refund_currency,omitempty"`
 		RefundReason   string `json:"refund_reason,omitempty"`
@@ -152,4 +156,29 @@ func (c *Client) TradeRefund(refundRequest TradeRefundRequest) (*TradeRefundResp
 		return nil, err
 	}
 	return &refundResponse, nil
+}
+
+type TradeConfirmRequest struct {
+	OutTradeNo      string `json:"out_trade_no,omitempty"`
+	PayChannel      string `json:"pay_channel,omitempty"`
+	PaymentIntentId string `json:"payment_intent_id,omitempty"`
+	Username        string `json:"username,omitempty"`
+	SignType        string `json:"sign_type,omitempty"`
+	Sign            string `json:"sign,omitempty"`
+}
+
+func (c *Client) TradeConfirm(confirmRequest TradeConfirmRequest) (*TradePayResponse, error) {
+	resp, err := c.doFormRequest("POST", "/v1/trade/confirm", nil, confirmRequest)
+	if err != nil {
+		log.Printf("ERROR: %v", err)
+		return nil, err
+	}
+	fmt.Println(string(resp))
+
+	var confirmResponse TradePayResponse
+	if err := json.Unmarshal(resp, &confirmResponse); err != nil {
+		log.Printf("ERROR: %v", err)
+		return nil, err
+	}
+	return &confirmResponse, nil
 }
